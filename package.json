@@ -1,0 +1,38 @@
+{
+  "name": "commit-a-day",
+  "version": "0.0.0",
+  "description": "Get handy tips on what to do as your daily github commit.",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eiriksm/commit-a-day.git"
+  },
+  "keywords": [
+    "github"
+  ],
+  "author": "Eirik S. Morland <eirik@morland.no>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eiriksm/commit-a-day/issues"
+  },
+  "homepage": "https://github.com/eiriksm/commit-a-day",
+  "dependencies": {
+    "colors": "^0.6.2",
+    "david": "^3.3.0",
+    "nomnom": "^1.7.0",
+    "prompt": "^0.2.13",
+    "request": "^2.36.0",
+    "require-dir": "^0.1.0",
+    "underscore": "^1.6.0",
+    "waitgroup": "^1.0.1",
+    "yesno": "0.0.1"
+  },
+  "devDependencies": {
+    "istanbul": "^0.2.11",
+    "mocha": "^1.20.1",
+    "should": "^4.0.4"
+  }
+}
