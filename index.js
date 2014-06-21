@@ -3,7 +3,6 @@ var request = require('request');
 var util = require('util');
 var requireDir = require('require-dir');
 var WaitGroup = require('waitgroup');
-var yesno = require('yesno');
 
 var commitaday = {
   init: {},
@@ -63,6 +62,9 @@ var init = function(config, callback) {
         processRepo(repo, function(err, packageJson) {
           delta += 1;
           if (err || !packageJson) {
+            if (err) {
+              log('Experienced an error with processing %s. The error was: %s', repo.full_name, err.message);
+            }
             nextRepo(delta);
             return;
           }
@@ -80,16 +82,9 @@ var init = function(config, callback) {
               }
               if (data) {
                 log(data);
-                yesno.ask('Not so useful tip? Do you want another one?', true, function(ok) {
-                  if (ok) {
-                    wg.done();
-                  }
-                  else {
-                    wg.cancel = true;
-                    wg.done();
-                    callback();
-                  }
-                });
+                wg.done();
+                wg.cancel = true;
+                callback(null, {message: data, delta: delta});
               }
               else {
                 wg.done();
@@ -104,7 +99,8 @@ var init = function(config, callback) {
         });
 
       };
-      nextRepo(0);
+      var delta = config.delta || 0;
+      nextRepo(delta);
       return;
     }
     callback(new Error('Did not get expected HTTP status code.'));

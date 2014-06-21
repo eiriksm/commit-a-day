@@ -1,4 +1,5 @@
 var n = require('nomnom');
+var yesno = require('yesno');
 
 var c = require('..');
 var log = require('../lib/log');
@@ -32,8 +33,23 @@ if (!opts || !opts.user) {
   process.exit(0);
 }
 // Initilize sauce.
-c.init(opts, function(err, res) {
-  if (err) {
-    log('Sorry! There was an error. The error was: %s', err.message.bold);
-  }
-});
+var start = function(opts) {
+  c.init(opts, function(err, res) {
+    if (err) {
+      log('Sorry! There was an error. The error was: %s', err.message.bold);
+      process.exit(0);
+    }
+    yesno.ask('Not so useful tip? Do you want another one?', true, function(ok) {
+      if (ok) {
+        opts.delta = res.delta;
+        start(opts);
+      }
+      else {
+        log('Exiting.');
+        process.exit(0);
+      }
+    });
+  });
+};
+
+start(opts);
