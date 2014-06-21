@@ -29,7 +29,7 @@ describe('App export and init', function() {
 
 describe('Init function', function() {
   // Start a server to serve the requests.
-  var url = 'http://localhost:98765/users/%s/repos';
+  var url = 'http://localhost:9876/users/%s/repos';
 
   var serverResponse = function(req, res) {
     res.end(JSON.stringify({ok: 'OK'}));
@@ -45,7 +45,7 @@ describe('Init function', function() {
     });
   });
   it('Should init and return no repos found error when no repos are found', function(done) {
-    s.listen(98765);
+    s.listen(9876);
     c({url: url, user: 'eiriksm'}, function(e, r) {
       e.message.should.equal('No repos found.');
       done();
@@ -96,7 +96,7 @@ describe('Init function', function() {
         }
       ]));
     };
-    c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:98765'}}, function(e, r) {
+    c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
       e.message.should.equal('No more tips to show!');
       done();
     });
