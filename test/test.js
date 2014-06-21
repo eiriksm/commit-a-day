@@ -61,7 +61,7 @@ describe('Init function', function() {
         }
       ]));
     };
-    c({url: url, user: 'eiriksm'}, function(e, r) {
+    c({url: url, user: 'eiriksm', rawurl: 'bogus'}, function(e, r) {
       e.message.should.equal('No more tips to show!');
       done();
     });
@@ -76,18 +76,16 @@ describe('Init function', function() {
         return;
       }
       if (req.url.indexOf('package.json') > 0) {
-        res.end(JSON.stringify({
-          dependencies: {
-            colors: '1'
-          },
-          devDependencies: {
-            colors: '1'
-          },
-          name: 'something'
-        }));
+        sendPackageJson(req, res);
         return;
       }
       res.end(JSON.stringify([
+        {
+          name: 'test repo',
+          fork: true,
+          full_name: 'localhost/test_repo',
+          default_branch: 'master'
+        },
         {
           name: 'test repo',
           fork: false,
@@ -97,11 +95,52 @@ describe('Init function', function() {
       ]));
     };
     c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
-      e.message.should.equal('No more tips to show!');
-      done();
+      done(e);
     });
-    setTimeout(function() {
-      process.stdin.emit('data', 'y' + '\n');
-    }, 500);
+  });
+
+  describe('Random tests to increase test coverage', function() {
+    it('Should fail miserably with bogus rawurl', function(done) {
+      c({url: url, user: 'eiriksm', rawurl: 'bogus://this.will not work at all'}, function(e, r) {
+        e.message.should.equal('No more tips to show!');
+        done();
+      });
+    });
+    it('Should be a problem when package json is not json', function(done) {
+      sendPackageJson = function(req, res) {
+        console.log('this');
+        res.end('Such invalid \n[{');
+      };
+      c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+
+        // Seems like a horrible false positive. But after all, this is the
+        // increase coverage section :)
+        e.message.should.equal('No more tips to show!');
+        done();
+      });
+    });
+    it('Should handle package.json with wrong statuscode', function(done) {
+      sendPackageJson = function(req, res) {
+        res.writeHead(418);
+        res.end('crap!');
+      };
+
+      c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+        e.message.should.equal('No more tips to show!');
+        done();
+      });
+    });
   });
 });
+
+function sendPackageJson(req, res) {
+  res.end(JSON.stringify({
+    dependencies: {
+      colors: '1'
+    },
+    devDependencies: {
+      colors: '1'
+    },
+    name: 'something'
+  }));
+}
