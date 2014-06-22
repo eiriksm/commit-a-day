@@ -36,7 +36,7 @@ if (!opts || !opts.user) {
 var start = function(opts) {
   c.init(opts, function(err, res) {
     if (err) {
-      log('Sorry! There was an error. The error was: %s', err.message.bold);
+      log.e('Sorry! There was an error. The error was: %s', err.message.bold);
       process.exit(0);
     }
     yesno.ask('Not so useful tip? Do you want another one?', true, function(ok) {
@@ -45,7 +45,7 @@ var start = function(opts) {
         start(opts);
       }
       else {
-        log('Exiting.');
+        log.i('Exiting.');
         process.exit(0);
       }
     });

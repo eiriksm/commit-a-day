@@ -18,7 +18,7 @@ module.exports = function(data, callback) {
     wg.add();
     david.getUpdatedDependencies(data.packageJson, { dev: n, npm: npm }, function(e, r) {
       var depType = n ? 'devDependenvies' : 'dependencies (not dev)';
-      log('Checked %s for %s', depType, data.repo.full_name);
+      log.i('Checked %s for %s', depType, data.repo.full_name);
       if (e) {
         callback(e);
         wg.done();
@@ -27,7 +27,7 @@ module.exports = function(data, callback) {
       }
       if (_.size(r) === 0) {
         // Problems, or nothing to do. better take the next one.
-        log('All %s are looking good for %s', depType, data.repo.full_name);
+        log.i('All %s are looking good for %s', depType, data.repo.full_name);
       }
       else {
         hasUpdate = true;
