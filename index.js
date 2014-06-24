@@ -21,10 +21,13 @@ var hasRepos = false;
 var init = function(config, callback) {
 
   config = config || {};
+  if (config.debug) {
+    log.verbose(true);
+  }
   commitaday.config = config;
   var user = config.user;
   var page = config.page || 1;
-  var urlString = config.url || 'https://api.github.com/users/%s/repos?sort=updated&direction=desc&page=%d';
+  var urlString = config.url || 'https://api.github.com/users/%s/repos?sort=updated&direction=asc&page=%d';
   if (!user) {
     callback(new Error('This is a no username found Error.'));
     return;
@@ -95,28 +98,28 @@ var init = function(config, callback) {
             packageJson: packageJson
           };
           var wg = new WaitGroup();
+          log.d('Processing plugins for %s', repo.full_name);
           Object.keys(plugins).forEach(function(n) {
             wg.add();
             plugins[n](data, function(pluginErr, data) {
               if (pluginErr) {
                 callback(pluginErr);
+                wg.done();
                 return;
               }
-              if (data) {
-                log.i(data);
-                wg.done();
+              if (data && !wg.cancel) {
+                log.i(data.inverse);
                 wg.cancel = true;
                 callback(null, {message: data, delta: delta});
               }
-              else {
-                wg.done();
-              }
+              wg.done();
             });
           });
           wg.wait(function() {
             if (!wg.cancel) {
               nextRepo(delta);
             }
+            return;
           });
         });
 
@@ -125,8 +128,8 @@ var init = function(config, callback) {
       nextRepo(delta);
       return;
     }
-    var message = util.format('Did not get expected HTTP status code. Expected 200, but got %d', response.statusCode);
-    callback(new Error(message));
+    var msg = util.format('Did not get expected HTTP status code. Expected 200, but got %d', response.statusCode);
+    callback(new Error(msg));
   });
 };
 

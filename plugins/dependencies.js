@@ -14,6 +14,15 @@ module.exports = function(data, callback) {
   var hasUpdate = false;
 
   // Check both dev and regular dependencies.
+  if (!data.packageJson || (!data.packageJson.dependencies && !data.packageJson.devDependencies)) {
+    log.d('Skipping dependency lookup for %s', data.repo.full_name);
+    // Skip a heartbeat so we are sure that all waitgroups are added in the
+    // plugin loop.
+    setTimeout(function() {
+      callback(null, null);
+    }, 0);
+    return;
+  }
   [false, true].forEach(function(n) {
     wg.add();
     david.getUpdatedDependencies(data.packageJson, { dev: n, npm: npm }, function(e, r) {
@@ -39,7 +48,7 @@ module.exports = function(data, callback) {
   wg.wait(function() {
     if (!wg.cancel) {
       if (hasUpdate) {
-        callback(null, util.format('There are dependencies to be updated in repo %s', data.repo.full_name));
+        callback(null, util.format('There are dependencies to be updated in repo %s. How about an update there?', data.repo.full_name));
       }
       else {
         callback(null, null);

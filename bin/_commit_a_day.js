@@ -21,7 +21,12 @@ n.options({
       callback: function() {
         return displayVersion();
       }
-   }
+    },
+    debug: {
+      abbr: 'd',
+      flag: true,
+      help: 'Print debugging info'
+    }
   });
 
 var opts = n.parse();
@@ -39,7 +44,9 @@ var start = function(opts) {
       log.e('Sorry! There was an error. The error was: %s', err.message.bold);
       process.exit(0);
     }
+    log.disable();
     yesno.ask('Not so useful tip? Do you want another one?', true, function(ok) {
+      log.enable();
       if (ok) {
         opts.delta = res.delta;
         start(opts);

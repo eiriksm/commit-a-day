@@ -94,20 +94,7 @@ describe('Init function', function() {
         sendPackageJson(req, res);
         return;
       }
-      res.end(JSON.stringify([
-        {
-          name: 'test repo',
-          fork: true,
-          full_name: 'localhost/test_repo',
-          default_branch: 'master'
-        },
-        {
-          name: 'test repo',
-          fork: false,
-          full_name: 'localhost/test_repo',
-          default_branch: 'master'
-        }
-      ]));
+      sendReposArray(req, res);
     };
     c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
       done(e);
@@ -148,6 +135,49 @@ describe('Random tests to increase test coverage', function() {
       done();
     });
   });
+
+  it('Should return an error when server is responding with wrong status code', function(done) {
+    sendReposArray = function(req, res) {
+      res.writeHead(418);
+      res.end('I am not a teapot');
+    };
+
+    c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+      e.message.should.equal('Did not get expected HTTP status code. Expected 200, but got 418');
+      done();
+    });
+  });
+
+  it('Should return an error when repos response is not valid JSON', function(done) {
+    sendReposArray = function(req, res) {
+      res.end('this is not json. At all {[\n');
+    };
+
+    c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+      e.message.should.equal('Unexpected token h');
+      done();
+    });
+  });
+  describe('Logger', function() {
+    it('Should just pass and show exactly one message up there ^^', function() {
+      // Just throwing in some tests to increase coverage.
+      var log = require('../lib/log');
+      log.enable();
+      log.verbose();
+      log.d('Debug log');
+      log.i('Info log');
+      log.disable();
+    });
+  });
+
+  it('Should use cache when present', function(done) {
+    id = 'http://localhost:9876/users/eiriksm/repos?page=1';
+    require('../lib/cache').set(id, {error: new Error('test error')});
+    c({url: url, debug: true, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+      e.message.should.equal('test error');
+      done();
+    });
+  });
 });
 
 function sendPackageJson(req, res) {
@@ -160,4 +190,21 @@ function sendPackageJson(req, res) {
     },
     name: 'something'
   }));
+}
+
+function sendReposArray(req, res) {
+  res.end(JSON.stringify([
+    {
+      name: 'test repo',
+      fork: true,
+      full_name: 'localhost/test_repo',
+      default_branch: 'master'
+    },
+    {
+      name: 'test repo',
+      fork: false,
+      full_name: 'localhost/test_repo',
+      default_branch: 'master'
+    }
+  ]));
 }
