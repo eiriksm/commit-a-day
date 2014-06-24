@@ -24,10 +24,12 @@
     "david": "^3.3.0",
     "nomnom": "^1.7.0",
     "prompt": "^0.2.13",
-    "request": "^2.36.0",
+    "request": "git+https://github.com/eiriksm/request#new-mime",
     "require-dir": "^0.1.0",
     "underscore": "^1.6.0",
     "waitgroup": "^1.0.1",
+    "xhr": "^1.9.0",
+    "xhr-browserify": "0.0.1",
     "yesno": "0.0.1"
   },
   "devDependencies": {

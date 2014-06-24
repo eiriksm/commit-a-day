@@ -1,7 +1,5 @@
 var _ = require('underscore');
-var request = require('request');
 var util = require('util');
-var requireDir = require('require-dir');
 var WaitGroup = require('waitgroup');
 
 var commitaday = {
@@ -11,7 +9,10 @@ var commitaday = {
 
 module.exports = commitaday;
 
-var plugins = requireDir('./plugins');
+var plugins = {
+  //dependencies: require('./plugins/dependencies'),
+  issues: require('./plugins/issues')
+};
 var processRepo = require('./lib/processing');
 var log = require('./lib/log');
 var requestCache = require('./lib/cache').get;
