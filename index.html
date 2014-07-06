@@ -3,14 +3,46 @@
   <head>
     <title>Commit-a-day</title>
     <link href="static/build/style.css" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
     <meta name="MobileOptimized" content="width">
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width">
 
   </head>
   <body>
-    <div id="container">
+    <div class="content-container">
+      <h1>
+        Commit-a-day
+      </h1>
+      <p>
+        A simple tool to give you hints about what you could commit today, as your commit-a-day commit.
+      </p>
+      <div id="container">
+      </div>
+      <h2>
+        How does it work?
+      </h2>
+      <p>
+        It works by using the github API to scan the public repos of the user in question, and it analyzes it from different perspectives (currently number of issues and dependencies in package.json) to suggest some low hanging fruit to get your commit of the day.
+      </p>
+      <h2>
+        Why have you made this?
+      </h2>
+      <p>
+        Well, to be perfectly honest, I made this so I could have some way to easily identify some things I could commit on the days I had less time than others, to keep my resolution of commiting to github every day.
+      </p>
+      <h2>
+        All this stuff looks ugly and/or is really buggy. What is the best way to ventilate the rage I am feeling right now?
+      </h2>
+      <p>
+        Thankfully, <a href="https://github.com/eiriksm/commit-a-day">the complete source is available on github</a>. Go nuts.
+      </p>
+      <h2>
+        Who is this person who have made this?
+      </h2>
+      <p>
+        I am Eirik and you can find me on <a href="https://twitter.com/orkj">twitter</a> or <a href="https://github.com/eiriksm/">github</a> if you want to say hi.
+      </p>
     </div>
     <script src="static/build/js.min.js"></script>
   </body>

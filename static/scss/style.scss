@@ -4,13 +4,14 @@
 $primary: #00303E;
 $background: #7096AD;
 $error: #EC4911;
+$text-color: #00303E;
 * {
   box-sizing: border-box;
 }
 body {
   background: $background;
   font-family: Lato, sans-serif;
-  color: #aaa;
+  color: $text-color;
 }
 
 input, button {
@@ -46,11 +47,19 @@ button {
   }
 }
 
-.content {
-  width: 300px;
+.content-container {
+  width: 600px;
   max-width: 100%;
   margin: auto;
   text-align: center;
+}
+@media (max-width: 600px) {
+  .content-container {
+    width: 300px;
+  }
+}
+.content {
+  margin: 1em 0;
 }
 
 .username-input {
@@ -68,7 +77,6 @@ button {
 }
 .suggestion-wrapper {
   background: #fff;
-  color: #0a0a0a;
 }
 .suggestion {
   padding: 10px;
@@ -110,4 +118,15 @@ button {
   100% {
     background: $background;
   }
+}
+h1, h2 {
+  text-shadow: 0 0 2px #fff;
+}
+p {
+  margin: 1em 0;
+}
+a,
+a:active,
+a:visited {
+  color: $primary;
 }

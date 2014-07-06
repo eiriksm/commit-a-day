@@ -1,8 +1,11 @@
 ;(function() {
   'use strict';
-  var c = require('../..');
   var m = require('mithril');
   var util = require('util');
+
+  var c = require('../..');
+
+  // Disable logging to the console.
   require('../../lib/log').disable();
 
   var app = {};
@@ -33,12 +36,11 @@
           ctrl.buttonText = 'Next suggestion';
           ctrl.opts.delta = r.delta;
           ctrl.suggestions.push({msg: r.message, repo: r.repo});
-          ctrl.next = true;
-          ctrl.loading = false;
         }
         else {
           ctrl.error = e;
         }
+        ctrl.loading = false;
         setTimeout(m.endComputation, 1);
       });
     }.bind(this);
@@ -70,7 +72,5 @@
       ])
    ]);
   };
-
   m.module(document.getElementById('container'), app);
-
 }());

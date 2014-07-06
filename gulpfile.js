@@ -10,7 +10,7 @@ gulp.task('scripts', function() {
     .pipe(browserify({
       require: 'https'
     }))
-    //.pipe(uglify())
+    .pipe(uglify())
     // Concat, just to rename for now.
     .pipe(concat('js.min.js'))
     .pipe(gulp.dest('./static/build'));
@@ -19,7 +19,7 @@ gulp.task('scripts', function() {
 gulp.task('css', function() {
   gulp.src('static/scss/style.scss')
     .pipe(sass({
-      //outputStyle: 'compressed',
+      outputStyle: 'compressed',
       errLogToConsole: true,
       error: function(err) {
         console.log(err);

@@ -105,7 +105,7 @@ function init(config, callback) {
             wg.add();
             plugins[n](data, function(pluginErr, data) {
               if (pluginErr) {
-                callback(pluginErr);
+                callback(pluginErr, {repo: repo});
                 wg.done();
                 return;
               }

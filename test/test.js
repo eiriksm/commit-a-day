@@ -31,6 +31,7 @@ describe('App export and init', function() {
 });
 
 var url = 'http://localhost:9876/users/%s/repos?page=%d';
+var serverResponse;
 
 describe('Init function', function() {
   beforeEach(function() {
@@ -38,7 +39,7 @@ describe('Init function', function() {
   });
 
   // Start a server to serve the requests.
-  var serverResponse = function(req, res) {
+  serverResponse = function(req, res) {
     res.end(JSON.stringify({ok: 'OK'}));
   };
 
@@ -158,6 +159,70 @@ describe('Random tests to increase test coverage', function() {
       done();
     });
   });
+
+  it('Should return an error when deps response is not valid JSON', function(done) {
+    sendReposArray = function(req, res) {
+      res.end(JSON.stringify([
+        {
+          name: 'test repo',
+          fork: true,
+          full_name: 'localhost/test_repo',
+          default_branch: 'master'
+        },
+        {
+          name: 'test repo',
+          fork: false,
+          full_name: 'localhost/test_repo',
+          default_branch: 'master'
+        }
+      ]));
+    };
+    sendPackageJson = function(req, res) {
+      res.end(JSON.stringify({
+        dependencies: {
+          colors: '~0.1.0'
+        },
+        devDependencies: {
+          colors: '^0.1.0'
+        },
+        name: 'something'
+      }));
+    };
+    serverResponse = function(req, res) {
+      if (req.url === '/colors') {
+        res.end('this is not json. At all {[\n');
+        return;
+      }
+      if (req.url.indexOf('page=2') > 0) {
+        res.end(JSON.stringify([]));
+        return;
+      }
+      if (req.url.indexOf('package.json') > 0) {
+        sendPackageJson(req, res);
+        return;
+      }
+      sendReposArray(req, res);
+    };
+    var imDone = false;
+    c({url: url, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+      if (imDone) {
+        return;
+      }
+      imDone = true;
+      e.message.should.equal('Unexpected token h');
+      done();
+    });
+  });
+
+  it('Should use cache when present', function(done) {
+    id = 'http://localhost:9876/users/eiriksm/repos?page=1';
+    require('../lib/cache').set(id, {error: new Error('test error')});
+    c({url: url, debug: true, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
+      e.message.should.equal('test error');
+      done();
+    });
+  });
+
   describe('Logger', function() {
     it('Should just pass and show exactly one message up there ^^', function() {
       // Just throwing in some tests to increase coverage.
@@ -169,13 +234,29 @@ describe('Random tests to increase test coverage', function() {
       log.disable();
     });
   });
-
-  it('Should use cache when present', function(done) {
-    id = 'http://localhost:9876/users/eiriksm/repos?page=1';
-    require('../lib/cache').set(id, {error: new Error('test error')});
+});
+describe('Plugins', function() {
+  it('Should return something on issues, when we know there are issues open', function(done) {
+    sendReposArray = function(req, res) {
+      res.end(JSON.stringify([
+        {
+          name: 'test repo',
+          fork: true,
+          full_name: 'localhost/test_repo',
+          default_branch: 'master'
+        },
+        {
+          name: 'test repo',
+          fork: false,
+          full_name: 'localhost/test_repo',
+          default_branch: 'master',
+          open_issues_count: 2
+        }
+      ]));
+    };
     c({url: url, debug: true, rawurl: url + '.package.json', user: 'eiriksm', npm: {registry: 'http://localhost:9876'}}, function(e, r) {
-      e.message.should.equal('test error');
-      done();
+      r.message.should.equal('localhost/test_repo has 2 open issues. How about tackling one of them?');
+      done(e);
     });
   });
 });
