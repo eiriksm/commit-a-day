@@ -1,0 +1,113 @@
+@import "reset";
+@import "animate";
+
+$primary: #00303E;
+$background: #7096AD;
+$error: #EC4911;
+* {
+  box-sizing: border-box;
+}
+body {
+  background: $background;
+  font-family: Lato, sans-serif;
+  color: #aaa;
+}
+
+input, button {
+  padding: 10px 0;
+  border: 4px solid #eee;
+  font-family: Lato, sans-serif;
+  font-size: 25px;
+}
+
+button {
+  // Yeah, borrowed directly from bootstrap.
+  background: $primary;
+  color: #fff;
+  display: block;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  white-space: nowrap;
+  border-color: darken($primary, 10%);
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: not-allowed;
+    pointer-events: none; // Future-proof disabling of clicks
+  }
+}
+
+.content {
+  width: 300px;
+  max-width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.username-input {
+  display: block;
+  transition: border-color .3s ease;
+  &:focus {
+    border-color: #aaa;
+    outline: 0;
+  }
+}
+
+.username-input,
+.action-button {
+  width: 100%;
+}
+.suggestion-wrapper {
+  background: #fff;
+  color: #0a0a0a;
+}
+.suggestion {
+  padding: 10px;
+  border-bottom: 1px solid $primary;
+}
+.errors {
+  padding: 10px;
+  background: $error;
+  color: #fff;
+}
+.loading-spinner-holder {
+  opacity: .9;
+  width: 100%;
+  height: 58px;
+  i {
+    background: $primary;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    opacity: 1;
+    &.dot-3 {
+      clear: both;
+    }
+  }
+  @for $i from 1 through 4 {
+    .dot-#{$i} {
+      animation: load .3s linear .1s*$i infinite alternate;
+    }
+  }
+  .inner {
+    margin: 0 auto;
+    text-align: center;
+    z-index: 99999;
+    position: relative;
+  }
+}
+
+@keyframes load {
+  100% {
+    background: $background;
+  }
+}

@@ -8,10 +8,11 @@ var commitaday = {
 };
 
 module.exports = commitaday;
+commitaday.init = init;
 
 var plugins = {
-  //dependencies: require('./plugins/dependencies'),
-  issues: require('./plugins/issues')
+  issues: require('./plugins/issues'),
+  dependencies: require('./plugins/dependencies')
 };
 var processRepo = require('./lib/processing');
 var log = require('./lib/log');
@@ -19,7 +20,7 @@ var requestCache = require('./lib/cache').get;
 
 var hasRepos = false;
 
-var init = function(config, callback) {
+function init(config, callback) {
 
   config = config || {};
   if (config.debug) {
@@ -111,7 +112,7 @@ var init = function(config, callback) {
               if (data && !wg.cancel) {
                 log.i(data.inverse);
                 wg.cancel = true;
-                callback(null, {message: data, delta: delta});
+                callback(null, {message: data, delta: delta, repo: repo});
               }
               wg.done();
             });
@@ -132,10 +133,5 @@ var init = function(config, callback) {
     var msg = util.format('Did not get expected HTTP status code. Expected 200, but got %d', response.statusCode);
     callback(new Error(msg));
   });
-};
+}
 
-commitaday.init = init;
-
-//init({user: 'eiriksm'}, function(e, r) {
-//  console.log(r);
-//});

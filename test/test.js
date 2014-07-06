@@ -183,10 +183,10 @@ describe('Random tests to increase test coverage', function() {
 function sendPackageJson(req, res) {
   res.end(JSON.stringify({
     dependencies: {
-      colors: '1'
+      colors: '~0.1.0'
     },
     devDependencies: {
-      colors: '1'
+      colors: '^0.1.0'
     },
     name: 'something'
   }));

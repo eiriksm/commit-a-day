@@ -1,15 +1,22 @@
-var david = require('david');
 var util = require('util');
 var _ = require('underscore');
 var WaitGroup = require('waitgroup');
+var semver = require('semver');
 
 var log = require('../lib/log');
+var requestCache = require('../lib/cache').get;
 
 module.exports = function(data, callback) {
-
+  setTimeout(function() {
+    //callback(null, null);
+  }, 0);
   var config = require('..').config;
   var npm = config.npm || {};
 
+  // @todo: When npm starts supporting CORS again...
+  var npmurl = npm.registry || 'http://npm-registry-cors-proxy.herokuapp.com';
+
+  // Try to get the latest info about this package.
   var wg = new WaitGroup();
   var hasUpdate = false;
 
@@ -23,26 +30,79 @@ module.exports = function(data, callback) {
     }, 0);
     return;
   }
-  [false, true].forEach(function(n) {
+  var packages = [];
+  if (data.packageJson.dependencies) {
+    _.each(data.packageJson.dependencies, function(i, n) {
+      packages.push({
+        name: n,
+        version: i
+      });
+    });
+  }
+  if (data.packageJson.devDependencies) {
+    _.each(data.packageJson.devDependencies, function(i, n) {
+      packages.push({
+        name: n,
+        version: i
+      });
+    });
+  }
+  if (packages.length === 0) {
+    // Just make the waitgroup execute.
     wg.add();
-    david.getUpdatedDependencies(data.packageJson, { dev: n, npm: npm }, function(e, r) {
-      var depType = n ? 'devDependenvies' : 'dependencies (not dev)';
-      log.i('Checked %s for %s', depType, data.repo.full_name);
+    wg.done();
+  }
+  packages.forEach(function(n) {
+    wg.add();
+    var opts = {
+      url: npmurl + '/' + n.name
+    };
+    requestCache(opts, function(e, r, b) {
       if (e) {
         callback(e);
         wg.done();
         wg.cancel = true;
         return;
       }
-      if (_.size(r) === 0) {
-        // Problems, or nothing to do. better take the next one.
-        log.i('All %s are looking good for %s', depType, data.repo.full_name);
+      var depPackage;
+      try {
+        depPackage = JSON.parse(b);
       }
-      else {
+      catch(e) {
+        callback(e);
+        wg.done();
+        wg.cancel = true;
+        return;
+      }
+      // See what this version is.
+      var distVersion = depPackage['dist-tags'].latest;
+      // Compare with what we are looking for.
+      var upAvail;
+      log.d('Comparing versions for %s, dependency %s. Wanted version %s, latest version is %s',
+            data.packageJson.name,
+            n.name,
+            n.version,
+            distVersion);
+      try {
+        upAvail = semver.gtr(distVersion, n.version);
+      }
+      catch(e) {
+        // Whatever...
+        log.d('%s has specified version %s of %s, which does not validate the comparison against latest version: %s',
+              data.packageJson.name,
+              n.version,
+              n.name,
+              distVersion);
+      }
+      if (upAvail) {
         hasUpdate = true;
+        log.d('%s has specified version %s of %s, which is lower than latest version: %s',
+              data.packageJson.name,
+              n.version,
+              n.name,
+              distVersion);
       }
       wg.done();
-
     });
   });
   wg.wait(function() {
