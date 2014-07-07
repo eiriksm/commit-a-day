@@ -6,3 +6,7 @@ commit-a-day
 [![Dependency Status](https://david-dm.org/eiriksm/commit-a-day.svg?theme=shields.io)](https://david-dm.org/eiriksm/commit-a-day)
 
 Get handy tips on what to do as your daily github commit.
+
+Both as CLI tool and website (hey, its JS, right?).
+
+[Demo site](http://eiriksm.github.io/commit-a-day/)
