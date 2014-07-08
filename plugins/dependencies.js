@@ -14,7 +14,7 @@ module.exports = function(data, callback) {
   var npm = config.npm || {};
 
   // @todo: When npm starts supporting CORS again...
-  var npmurl = npm.registry || 'http://npm-registry-cors-proxy.herokuapp.com';
+  var npmurl = npm.registry || 'http://npm.e-o.no';
 
   // Try to get the latest info about this package.
   var wg = new WaitGroup();
@@ -69,6 +69,7 @@ module.exports = function(data, callback) {
         depPackage = JSON.parse(b);
       }
       catch(e) {
+        console.log(b);
         callback(e);
         wg.done();
         wg.cancel = true;

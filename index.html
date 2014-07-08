@@ -10,20 +10,37 @@
 
   </head>
   <body>
+    <h1 class="site-title">
+      Commit-a-day
+    </h1>
     <div class="content-container">
-      <h1>
-        Commit-a-day
-      </h1>
       <p>
-        A simple tool to give you hints about what you could commit today, as your commit-a-day commit.
+        A simple tool to give you hints about what you could commit today, as your commit-a-day commit. But enough talk. Demo?
       </p>
       <div id="container">
       </div>
+      <p>
+        Or you could install it as a command line tool:
+        <pre>
+          [sudo] npm install -g commit-a-day
+        </pre>
+        <p>
+          ...and then whenever you feel like it:
+        </p>
+        <pre>
+          commit-a-day [username]
+        </pre>
+        <p>
+          Of course, you can also use it in your own node.js or browserify project by requiring it as a module.
+        </p>
+      </p>
+    </div>
+    <div class="description-container">
       <h2>
         How does it work?
       </h2>
       <p>
-        It works by using the github API to scan the public repos of the user in question, and it analyzes it from different perspectives (currently number of issues and dependencies in package.json) to suggest some low hanging fruit to get your commit of the day.
+        It works by using the github API to scan the public repos of the user in question, and it analyzes it from different perspectives (currently number of issues and dependencies in package.json) to suggest some low hanging fruit to get your commit of the day. The very same codebase is used to provide both the above searchbox and the command line tool. Because JavaScript.
       </p>
       <h2>
         Why have you made this?
@@ -35,7 +52,13 @@
         All this stuff looks ugly and/or is really buggy. What is the best way to ventilate the rage I am feeling right now?
       </h2>
       <p>
-        Thankfully, <a href="https://github.com/eiriksm/commit-a-day">the complete source is available on github</a>. Go nuts.
+        Thankfully, <a href="https://github.com/eiriksm/commit-a-day">the complete source is available on github</a>. Open issues, create pull requests. Go nuts!
+      </p>
+      <h2>
+        Credits
+      </h2>
+      <p>
+        This page is made possible by the awesome projects <a href="http://browserify.org/">browserify</a> and <a href="http://lhorie.github.io/mithril/">Mithril</a>. Of course there are alot of other <a href="https://github.com/eiriksm/commit-a-day/blob/master/package.json">dependencies</a> and they are coincidentally all awesome too. Also, I would like to note that the site <a href="http://firstpr.me/">First Pull Request</a> is the inspiration for making it work in the browser as well. And of course, if you still haven't read the <a href="http://ejohn.org/blog/write-code-every-day/">code every day</a> article by John Resig, why not do it now?
       </p>
       <h2>
         Who is this person who have made this?

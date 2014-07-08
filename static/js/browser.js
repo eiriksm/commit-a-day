@@ -11,14 +11,25 @@
   var app = {};
 
   app.controller = function() {
+    var loadingtext = [
+      'Requesting something over the internet',
+      'Talking to some remote servers',
+      'Communicating with the interconnected web',
+      'Looking for some information',
+      'Trying to assemble some pieces'
+    ];
     var ctrl = this;
     this.buttonText = 'Gimme suggestion!';
     this.username = m.prop('');
+    this.getLoadingText = function() {
+      return loadingtext[Math.floor(Math.random() * loadingtext.length)];
+    };
     this.opts = {};
     this.start = function() {
       var user = this.username();
       m.startComputation();
       ctrl.loading = true;
+      ctrl.loadingText = ctrl.getLoadingText();
       if (user !== this.opts.user) {
         // Reset everything.
         this.error = false;
@@ -30,6 +41,7 @@
       }
       this.opts.user = user;
       setTimeout(m.endComputation, 1);
+      ctrl.error = '';
       c.init(this.opts, function(e, r) {
         m.startComputation();
         if (!e) {
@@ -39,6 +51,9 @@
         }
         else {
           ctrl.error = e;
+          if (r) {
+            ctrl.error = e + '. Error encountered on processing of repo ' + r.repo.full_name;
+          }
         }
         ctrl.loading = false;
         setTimeout(m.endComputation, 1);
@@ -53,6 +68,7 @@
       !ctrl.loading ? m('button.action-button', {onclick: ctrl.start}, ctrl.buttonText) : '',
       ctrl.loading ? m('div.loading-spinner-holder', [
         m('div.inner', [
+          m('span', ctrl.loadingText),
           m('h1', [
             [1, 2, 3, 4].map(function(num) {
               return m('i', {class: 'dot-' + num});
