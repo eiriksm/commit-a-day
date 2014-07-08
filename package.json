@@ -1,6 +1,6 @@
 {
   "name": "commit-a-day",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Get handy tips on what to do as your daily github commit.",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/eiriksm/commit-a-day.git"
+  },
+  "bin": {
+    "commit-a-day": "./bin/commit-a-day"
   },
   "keywords": [
     "github"

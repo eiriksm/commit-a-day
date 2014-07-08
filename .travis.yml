@@ -1,8 +1,15 @@
 language: node_js
 node_js:
-  - "0.11"
-  - "0.10"
-
+- '0.11'
+- '0.10'
 script:
-  - make test-cov
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+- make test-cov
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+deploy:
+  provider: npm
+  email: eirik@morland.no
+  api_key:
+    secure: JGMolB+ag64E4y4YssquE92F7A+JrrbOmLYT4rcd/r3738+BZ/S+sPLJEBwOff24H5+siLs45AorMNsifjRtaWNvqK2Hpnq7gAH6m7vnBAS2YpRn8OxHjZOA3zAgVNln6p45euCHhmhPVS+ORhrNClMCMRGoXtRbkO6YdFCX3Mo=
+  on:
+    tags: true
+    repo: eiriksm/commit-a-day
