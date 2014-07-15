@@ -33,15 +33,19 @@
     "yesno": "0.0.1"
   },
   "devDependencies": {
-    "coveralls": "^2.11.0",
-    "gulp": "^3.8.5",
+    "browserify": "^4.2.1",
+    "coveralls": "^2.11.1",
+    "gulp": "^3.8.6",
     "gulp-autoprefixer": "0.0.8",
-    "gulp-browserify": "^0.5.0",
+    "gulp-concat": "^2.3.3",
     "gulp-sass": "^0.7.2",
+    "gulp-streamify": "0.0.5",
     "gulp-uglify": "^0.3.1",
-    "istanbul": "^0.2.16",
+    "istanbul": "^0.3.0",
+    "mithril": "^0.1.18",
     "mocha": "^1.20.1",
     "require-dir": "^0.1.0",
-    "should": "^4.0.4"
+    "should": "^4.0.4",
+    "vinyl-source-stream": "^0.1.1"
   }
 }

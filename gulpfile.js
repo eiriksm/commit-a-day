@@ -1,18 +1,18 @@
 var gulp = require('gulp');
-var browserify = require('gulp-browserify');
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var streamify = require('gulp-streamify');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
 
 gulp.task('scripts', function() {
-  gulp.src('static/js/*.js')
-    .pipe(browserify({
-      require: 'https'
-    }))
-    .pipe(uglify())
-    // Concat, just to rename for now.
-    .pipe(concat('js.min.js'))
+  browserify('./static/js/browser.js')
+    .require('https')
+    .bundle()
+    .pipe(source('js.min.js'))
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest('./static/build'));
 });
 
