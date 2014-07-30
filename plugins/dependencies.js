@@ -31,22 +31,16 @@ module.exports = function(data, callback) {
     return;
   }
   var packages = [];
-  if (data.packageJson.dependencies) {
-    _.each(data.packageJson.dependencies, function(i, n) {
-      packages.push({
-        name: n,
-        version: i
+  _.each(['dependencies', 'devDependencies'], function(type) {
+    if (data.packageJson[type]) {
+      _.each(data.packageJson[type], function(i, n) {
+        packages.push({
+          name: n,
+          version: i
+        });
       });
-    });
-  }
-  if (data.packageJson.devDependencies) {
-    _.each(data.packageJson.devDependencies, function(i, n) {
-      packages.push({
-        name: n,
-        version: i
-      });
-    });
-  }
+    }
+  });
   if (packages.length === 0) {
     // Just make the waitgroup execute.
     wg.add();
