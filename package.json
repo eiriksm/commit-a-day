@@ -33,7 +33,7 @@
     "yesno": "0.0.1"
   },
   "devDependencies": {
-    "browserify": "^5.9.1",
+    "browserify": "git+https://github.com/eiriksm/node-browserify#arraybuffers-in-string",
     "coveralls": "^2.11.1",
     "gulp": "^3.8.6",
     "gulp-autoprefixer": "0.0.8",

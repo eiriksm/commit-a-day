@@ -20,7 +20,16 @@ var requestCache = require('./lib/cache').get;
 
 var hasRepos = false;
 
-function init(config, callback) {
+function init(config, initCallback) {
+  var calledBack = false;
+  function callback() {
+    log.d('Calling callback. Arguments:');
+    log.d.apply(log, arguments);
+    if (!calledBack) {
+      initCallback.apply(initCallback, arguments);
+    }
+    calledBack = true;
+  }
 
   config = config || {};
   if (config.debug) {
@@ -54,6 +63,7 @@ function init(config, callback) {
         repos = JSON.parse(body);
       }
       catch(jsonerr) {
+        log.e('There was an error parsing the github JSON');
         callback(jsonerr);
         return;
       }
@@ -81,6 +91,7 @@ function init(config, callback) {
             init(config, callback);
             return;
           }
+          log.d('Calling callback with "no more tips"');
           callback(new Error('No more tips to show!'));
           return;
         }
@@ -105,7 +116,9 @@ function init(config, callback) {
             wg.add();
             plugins[n](data, function(pluginErr, data) {
               if (pluginErr) {
-                callback(pluginErr, {repo: repo});
+                log.e('Encountered a plugin error on plugin %s with the repo %s', n, repo.full_name);
+                callback(pluginErr, {repo: repo, delta: delta});
+                wg.cancel = true;
                 wg.done();
                 return;
               }
@@ -134,4 +147,3 @@ function init(config, callback) {
     callback(new Error(msg));
   });
 }
-
