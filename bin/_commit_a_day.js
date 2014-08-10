@@ -26,6 +26,10 @@ n.options({
       abbr: 'd',
       flag: true,
       help: 'Print debugging info'
+    },
+    disable: {
+      help: 'Disable some plugins. Example: "--disable=dependencies" or "--disable=dependencies --disable=issues"',
+      list: true
     }
   });
 

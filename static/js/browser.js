@@ -11,6 +11,15 @@
   var app = {};
 
   app.controller = function() {
+    this.plugins = [];
+    this.enabledPlugins = {};
+    for (var prop in c.plugins) {
+      if (c.plugins.hasOwnProperty(prop)) {
+        this.plugins.push(prop);
+        // Enable all by default.
+        this.enabledPlugins[prop] = true;
+      }
+    }
     var loadingtext = [
       'Requesting something over the internet',
       'Talking to some remote servers',
@@ -39,6 +48,7 @@
         m.endComputation();
         m.startComputation();
       }
+      this.opts.disable = this.getDisabledPlugins();
       this.opts.user = user;
       setTimeout(m.endComputation, 1);
       ctrl.error = '';
@@ -60,10 +70,45 @@
       });
     }.bind(this);
     this.suggestions = [];
+    this.isChecked = function(plugin) {
+      if (ctrl.enabledPlugins[plugin]) {
+        return true;
+      }
+      return false;
+    };
+    this.pluginChange = function(e) {
+      // Find plugin.
+      var plugin = e.target.getAttribute('data-plugin');
+      // Disable plugin.
+      if (ctrl.enabledPlugins[plugin]) {
+        delete ctrl.enabledPlugins[plugin];
+        return;
+      }
+      ctrl.enabledPlugins[plugin] = true;
+    };
+    this.getDisabledPlugins = function() {
+      var disabled = [];
+      for (var p in c.plugins) {
+        if (!ctrl.enabledPlugins[p]) {
+          disabled.push(p);
+        }
+      }
+      return disabled;
+    };
   };
   // view
   app.view = function(ctrl) {
     return m('div.content', [
+      m('div.choices', [
+        m('h3', 'Optionally disable some plugins'),
+        ctrl.plugins.map(function(n) {
+          var id = 'checkbox-' + n;
+          return [
+            m('input', {onchange: ctrl.pluginChange, 'data-plugin': n, type: 'checkbox', id: id, checked: ctrl.isChecked(n)}),
+            m('label', {for: id}, n)
+          ];
+        })
+      ]),
       m('input.username-input', {onchange: m.withAttr('value', ctrl.username), value: ctrl.username(), type: 'text', placeholder: 'Enter username', id: 'username'}),
       !ctrl.loading ? m('button.action-button', {onclick: ctrl.start}, ctrl.buttonText) : '',
       ctrl.loading ? m('div.loading-spinner-holder', [

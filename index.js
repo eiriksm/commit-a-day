@@ -14,6 +14,7 @@ var plugins = {
   issues: require('./plugins/issues'),
   dependencies: require('./plugins/dependencies')
 };
+commitaday.plugins = plugins;
 var processRepo = require('./lib/processing');
 var log = require('./lib/log');
 var requestCache = require('./lib/cache').get;
@@ -23,8 +24,6 @@ var hasRepos = false;
 function init(config, initCallback) {
   var calledBack = false;
   function callback() {
-    log.d('Calling callback. Arguments:');
-    log.d.apply(log, arguments);
     if (!calledBack) {
       initCallback.apply(initCallback, arguments);
     }
@@ -34,6 +33,15 @@ function init(config, initCallback) {
   config = config || {};
   if (config.debug) {
     log.verbose(true);
+  }
+  var disabled = {};
+  if (config.disable) {
+    // See if we are to disable some dependencies.
+    config.disable.forEach(function(n) {
+      if (plugins[n]) {
+        disabled[n] = true;
+      }
+    });
   }
   commitaday.config = config;
   var user = config.user;
@@ -113,6 +121,10 @@ function init(config, initCallback) {
           var wg = new WaitGroup();
           log.d('Processing plugins for %s', repo.full_name);
           Object.keys(plugins).forEach(function(n) {
+            if (disabled[n]) {
+              log.d('Skipping plugin %s, because it is disabled via config', n);
+              return;
+            }
             wg.add();
             plugins[n](data, function(pluginErr, data) {
               if (pluginErr) {
