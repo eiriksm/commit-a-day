@@ -25,27 +25,27 @@
   "dependencies": {
     "colors": "^0.6.2",
     "nomnom": "^1.8.0",
-    "prompt": "^0.2.13",
-    "request": "2.39.0",
-    "semver": "^3.0.1",
-    "underscore": "^1.6.0",
+    "prompt": "^0.2.14",
+    "request": "2.44.0",
+    "semver": "^4.0.0",
+    "underscore": "^1.7.0",
     "waitgroup": "^1.0.1",
     "yesno": "0.0.1"
   },
   "devDependencies": {
     "browserify": "git+https://github.com/eiriksm/node-browserify#arraybuffers-in-string",
-    "coveralls": "^2.11.1",
-    "gulp": "^3.8.7",
-    "gulp-autoprefixer": "0.0.8",
-    "gulp-concat": "^2.3.4",
-    "gulp-sass": "^0.7.2",
+    "coveralls": "^2.11.2",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "1.0.1",
+    "gulp-concat": "^2.4.1",
+    "gulp-sass": "^1.0.0",
     "gulp-streamify": "0.0.5",
-    "gulp-uglify": "^0.3.1",
-    "istanbul": "^0.3.0",
-    "mithril": "^0.1.19",
+    "gulp-uglify": "^1.0.1",
+    "istanbul": "^0.3.2",
+    "mithril": "^0.1.22",
     "mocha": "^1.21.4",
     "require-dir": "^0.1.0",
     "should": "^4.0.4",
-    "vinyl-source-stream": "^0.1.1"
+    "vinyl-source-stream": "^1.0.0"
   }
 }
