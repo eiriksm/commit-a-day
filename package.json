@@ -4,7 +4,9 @@
   "description": "Get handy tips on what to do as your daily github commit.",
   "main": "index.js",
   "scripts": {
-    "test": "make test"
+    "test": "npm run lint && npm run test-browser && mocha",
+    "test-browser": "karma start test/browser/karma.conf.js",
+    "lint": "eslint . && echo 'Lint passed'"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
   "devDependencies": {
     "browserify": "git+https://github.com/eiriksm/node-browserify#arraybuffers-in-string",
     "coveralls": "^2.11.2",
+    "eslint": "^0.12.0",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "2.1.0",
     "gulp-concat": "^2.4.3",
@@ -42,6 +45,11 @@
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.0.2",
     "istanbul": "^0.3.5",
+    "karma": "^0.12.31",
+    "karma-browserify": "^2.0.0",
+    "karma-cli": "0.0.4",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
     "mithril": "^0.1.28",
     "mocha": "^2.1.0",
     "require-dir": "^0.1.0",

@@ -1,3 +1,4 @@
+'use strict';
 var util = require('util');
 var WaitGroup = require('waitgroup');
 
@@ -7,7 +8,6 @@ var commitaday = {
 };
 
 module.exports = commitaday;
-commitaday.init = init;
 
 var plugins = {
   issues: require('./plugins/issues'),
@@ -125,7 +125,7 @@ function init(config, initCallback) {
               return;
             }
             wg.add();
-            plugins[n](data, function(pluginErr, data) {
+            plugins[n](data, function(pluginErr, pd) {
               if (pluginErr) {
                 log.e('Encountered a plugin error on plugin %s with the repo %s', n, repo.full_name);
                 callback(pluginErr, {repo: repo, delta: delta});
@@ -133,10 +133,10 @@ function init(config, initCallback) {
                 wg.done();
                 return;
               }
-              if (data && !wg.cancel) {
-                log.i(data.inverse);
+              if (pd && !wg.cancel) {
+                log.i(pd.inverse);
                 wg.cancel = true;
-                callback(null, {message: data, delta: delta, repo: repo});
+                callback(null, {message: pd, delta: delta, repo: repo});
               }
               wg.done();
             });
@@ -145,16 +145,16 @@ function init(config, initCallback) {
             if (!wg.cancel) {
               nextRepo(delta);
             }
-            return;
           });
         });
 
       };
-      var delta = config.delta || 0;
-      nextRepo(delta);
+      var d = config.delta || 0;
+      nextRepo(d);
       return;
     }
     var msg = util.format('Did not get expected HTTP status code. Expected 200, but got %d', response.statusCode);
     callback(new Error(msg));
   });
 }
+commitaday.init = init;

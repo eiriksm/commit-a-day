@@ -1,3 +1,5 @@
+/*eslint-disable no-process-exit */
+'use strict';
 var n = require('nomnom');
 var yesno = require('yesno');
 
@@ -42,8 +44,8 @@ if (!opts || !opts.user) {
   process.exit(0);
 }
 // Initilize sauce.
-var start = function(opts) {
-  c.init(opts, function(err, res) {
+var start = function(opt) {
+  c.init(opt, function(err, res) {
     if (err) {
       log.e('Sorry! There was an error. The error was: %s', err.message.bold);
       process.exit(0);
@@ -53,7 +55,7 @@ var start = function(opts) {
       log.enable();
       if (ok) {
         opts.delta = res.delta;
-        start(opts);
+        start(opt);
       }
       else {
         log.i('Exiting.');
