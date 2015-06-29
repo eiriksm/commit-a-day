@@ -63,8 +63,8 @@ module.exports = function(data, callback) {
       try {
         depPackage = JSON.parse(b);
       }
-      catch(e) {
-        callback(e);
+      catch(err) {
+        callback(err);
         wg.done();
         wg.cancel = true;
         return;
@@ -81,7 +81,7 @@ module.exports = function(data, callback) {
       try {
         upAvail = semver.gtr(distVersion, n.version);
       }
-      catch(e) {
+      catch(err) {
         // Whatever...
         log.d('%s has specified version %s of %s, which does not validate the comparison against latest version: %s',
               data.packageJson.name,

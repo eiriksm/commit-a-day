@@ -25,7 +25,7 @@ gulp.task('css', function() {
         console.log(err);
       }
     }))
-    .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
+    .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7'))
     .pipe(gulp.dest('./static/build'));
 });
 
