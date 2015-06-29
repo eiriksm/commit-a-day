@@ -4,6 +4,6 @@
     "node": true
   },
   "rules": {
-    "quotes": "single"
+    "quotes": [2, "single"]
   }
 }
