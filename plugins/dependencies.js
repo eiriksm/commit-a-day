@@ -8,9 +8,6 @@ var log = require('../lib/log');
 var requestCache = require('../lib/cache').get;
 
 module.exports = function(data, callback) {
-  setTimeout(function() {
-    //callback(null, null);
-  }, 0);
   var config = require('..').config;
   var npm = config.npm || {};
 
