@@ -37,7 +37,7 @@
   "devDependencies": {
     "browserify": "git+https://github.com/eiriksm/node-browserify#arraybuffers-in-string",
     "coveralls": "^2.11.2",
-    "eslint": "^1.7.1",
+    "eslint": "^1.10.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "3.1.0",
     "gulp-concat": "^2.6.0",
