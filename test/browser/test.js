@@ -1,4 +1,10 @@
 'use strict';
+Function.prototype.bind = Function.prototype.bind || function (thisp) {
+  var fn = this;
+  return function () {
+    return fn.apply(thisp, arguments);
+  };
+};
 var cad = require('../..');
 require('should');
 
