@@ -47,7 +47,7 @@
     "istanbul": "^0.4.0",
     "karma": "^0.13.12",
     "karma-browserify": "^4.2.1",
-    "karma-cli": "0.1.0",
+    "karma-cli": "0.1.2",
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.0",
     "mithril": "^0.2.0",
