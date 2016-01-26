@@ -35,7 +35,7 @@
     "yesno": "0.0.1"
   },
   "devDependencies": {
-    "browserify": "git+https://github.com/eiriksm/node-browserify#arraybuffers-in-string",
+    "browserify": "^13.0.0",
     "coveralls": "^2.11.2",
     "eslint": "^1.7.1",
     "gulp": "^3.9.0",
