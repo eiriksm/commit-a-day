@@ -1,6 +1,6 @@
 {
   "name": "commit-a-day",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Get handy tips on what to do as your daily github commit.",
   "main": "index.js",
   "scripts": {
