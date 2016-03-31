@@ -51,7 +51,7 @@
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "mithril": "^0.2.0",
-    "mocha": "^2.2.5",
+    "mocha": "^2.4.3",
     "require-dir": "^0.3.0",
     "should": "^8.0.1",
     "vinyl-source-stream": "^1.1.0"
