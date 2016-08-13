@@ -39,7 +39,7 @@
     "coveralls": "^2.11.2",
     "eslint": "^3.0.0",
     "gulp": "^3.9.0",
-    "gulp-autoprefixer": "3.1.0",
+    "gulp-autoprefixer": "3.1.1",
     "gulp-concat": "^2.6.0",
     "gulp-sass": "^2.0.3",
     "gulp-streamify": "1.0.2",
