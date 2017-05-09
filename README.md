@@ -1,5 +1,7 @@
 Commit-a-day
 ============
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/eiriksm/commit-a-day.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/eiriksm/commit-a-day.svg?branch=master)](https://travis-ci.org/eiriksm/commit-a-day)
 [![Coverage Status](http://img.shields.io/coveralls/eiriksm/commit-a-day.svg)](https://coveralls.io/r/eiriksm/commit-a-day?branch=master)
 [![Code Climate](http://img.shields.io/codeclimate/github/eiriksm/commit-a-day.svg)](https://codeclimate.com/github/eiriksm/commit-a-day)
