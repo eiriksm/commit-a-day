@@ -1,6 +1,7 @@
 ;(function() {
   'use strict';
   var m = require('mithril');
+  var mprop = require('mithril/stream');
   var util = require('util');
 
   var c = require('../..');
@@ -9,8 +10,7 @@
   require('../../lib/log').disable();
 
   var app = {};
-
-  app.controller = function() {
+  var Controller = function() {
     this.plugins = [];
     this.enabledPlugins = {};
     for (var prop in c.plugins) {
@@ -29,14 +29,13 @@
     ];
     var ctrl = this;
     this.buttonText = 'Gimme suggestion!';
-    this.username = m.prop('');
+    this.username = mprop('');
     this.getLoadingText = function() {
       return loadingtext[Math.floor(Math.random() * loadingtext.length)];
     };
     this.opts = {};
     this.start = function() {
       var user = this.username();
-      m.startComputation();
       ctrl.loading = true;
       ctrl.loadingText = ctrl.getLoadingText();
       if (user !== this.opts.user) {
@@ -45,15 +44,11 @@
         this.suggestions = [];
         this.opts = {};
         // Re-render.
-        m.endComputation();
-        m.startComputation();
       }
       this.opts.disable = this.getDisabledPlugins();
       this.opts.user = user;
-      setTimeout(m.endComputation, 1);
       ctrl.error = '';
       c.init(this.opts, function(e, r) {
-        m.startComputation();
         if (!e) {
           ctrl.buttonText = 'Next suggestion';
           ctrl.opts.delta = r.delta;
@@ -66,7 +61,6 @@
           }
         }
         ctrl.loading = false;
-        setTimeout(m.endComputation, 1);
       });
     }.bind(this);
     this.suggestions = [];
@@ -95,9 +89,15 @@
       }
       return disabled;
     };
+    return this;
+  }
+
+  app.controller = function() {
+
   };
   // view
-  app.view = function(ctrl) {
+  var ctrl = new Controller();
+  app.view = function() {
     return m('div.content', [
       m('div.choices', [
         m('h3', 'Optionally disable some plugins'),
@@ -133,5 +133,5 @@
       ])
    ]);
   };
-  m.module(document.getElementById('container'), app);
+  m.mount(document.getElementById('container'), app);
 }());
