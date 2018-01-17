@@ -29,7 +29,7 @@
     "nomnom": "^1.8.1",
     "prompt": "^1.0.0",
     "request": "^2.68.0",
-    "semver": "^5.0.3",
+    "semver": "5.4.1",
     "underscore": "^1.8.3",
     "waitgroup": "^1.1.0",
     "yesno": "0.0.1"
