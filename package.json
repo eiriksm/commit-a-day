@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && npm run test-browser && mocha --exit",
+    "coverage": "istanbul cover -- _mocha --exit",
     "test-browser": "karma start test/browser/karma.conf.js",
     "lint": "eslint . && echo 'Lint passed'"
   },
