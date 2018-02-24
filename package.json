@@ -4,7 +4,7 @@
   "description": "Get handy tips on what to do as your daily github commit.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && npm run test-browser && mocha",
+    "test": "npm run lint && npm run test-browser && mocha --exit",
     "test-browser": "karma start test/browser/karma.conf.js",
     "lint": "eslint . && echo 'Lint passed'"
   },
