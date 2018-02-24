@@ -4,7 +4,8 @@
   "description": "Get handy tips on what to do as your daily github commit.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && npm run test-browser && mocha",
+    "test": "npm run lint && npm run test-browser && mocha --exit",
+    "coverage": "istanbul cover -- _mocha --exit",
     "test-browser": "karma start test/browser/karma.conf.js",
     "lint": "eslint . && echo 'Lint passed'"
   },
@@ -51,7 +52,7 @@
     "karma-mocha": "^1.0.1",
     "karma-phantomjs-launcher": "^1.0.0",
     "mithril": "^1.1.1",
-    "mocha": "^3.0.0",
+    "mocha": "^5.0.1",
     "require-dir": "^1.0.0",
     "should": "^13.0.1",
     "vinyl-source-stream": "^2.0.0"
