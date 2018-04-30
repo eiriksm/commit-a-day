@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/eiriksm/commit-a-day",
   "dependencies": {
-    "colors": "^1.1.2",
+    "colors": "^1.2.2",
     "nomnom": "^1.8.1",
     "prompt": "^1.0.0",
     "request": "^2.68.0",
