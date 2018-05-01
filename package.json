@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "browserify": "^14.3.0",
-    "coveralls": "^3.0.0",
+    "coveralls": "^3.0.1",
     "eslint": "^4.1.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "4.1.0",
