@@ -14,7 +14,7 @@ module.exports = function(config) {
       'test/**/*.js': ['browserify']
     },
     plugins: [
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-mocha',
       'karma-browserify'
     ],
@@ -33,7 +33,7 @@ module.exports = function(config) {
 
     autoWatch: false,
 
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
     singleRun: true
 
