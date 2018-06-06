@@ -30,7 +30,7 @@
     "prompt": "^1.0.0",
     "request": "^2.68.0",
     "semver": "^5.0.3",
-    "underscore": "^1.8.3",
+    "underscore": "^1.9.1",
     "waitgroup": "^1.1.0",
     "yesno": "0.0.1"
   },
