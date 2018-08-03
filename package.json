@@ -35,7 +35,7 @@
     "yesno": "0.0.1"
   },
   "devDependencies": {
-    "browserify": "^14.3.0",
+    "browserify": "^16.2.2",
     "coveralls": "^3.0.0",
     "eslint": "^4.1.0",
     "gulp": "^3.9.0",
