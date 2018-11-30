@@ -32,7 +32,7 @@
     "semver": "^5.0.3",
     "underscore": "^1.9.1",
     "waitgroup": "^1.1.0",
-    "yesno": "0.0.1"
+    "yesno": "0.2.0"
   },
   "devDependencies": {
     "browserify": "^16.2.2",
